@@ -33,4 +33,9 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
   ],
+  proxy: {
+    prefix: "/api",
+    // url: "https://xqvyv7b8we.execute-api.ap-northeast-2.amazonaws.com/prod",
+    url: "http://192.168.100.38:3000",
+  },
 }
