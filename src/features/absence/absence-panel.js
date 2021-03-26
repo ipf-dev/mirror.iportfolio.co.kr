@@ -1,31 +1,36 @@
-import React, { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from "react"
 import styled from "@emotion/styled"
-
-import { fetchAbsenceEvents, selectAll } from "./absenceSlice"
 
 const AbsenceItem = styled.li`
   width: 50%;
   font-family: san-serif;
-  font-size: 3.6rem;
+  font-size: 2.4rem;
   line-height: 1.5;
   text-align: left !important;
 `
 
-function AbsencePanel() {
-  const dispatch = useDispatch()
-  const status = useSelector(state => state.absence.status)
-  const items = useSelector(state => selectAll(state.absence))
+const API_HOST = "https://culture.iportfolio.co.kr"
 
-  const getAllAbsenceEvents = () => {
-    dispatch(fetchAbsenceEvents())
+async function getAllAbsenceEvents() {
+  const request = await fetch(`${API_HOST}/api/absence`)
+  const response = await request.json()
+
+  return response.items
+}
+
+function AbsencePanel() {
+  const [items, updateItems] = useState([])
+
+  const getEvents = async () => {
+    const items = await getAllAbsenceEvents()
+    updateItems(items)
   }
 
   useEffect(() => {
-    getAllAbsenceEvents()
+    getEvents()
 
     const timer = setInterval(() => {
-      getAllAbsenceEvents()
+      getEvents()
     }, 60 * 60 * 2 * 1000)
 
     return () => {
@@ -35,7 +40,7 @@ function AbsencePanel() {
 
   return (
     <ul style={{ display: "flex", flexWrap: "wrap", listStyle: "none" }}>
-      {status === "succeeded" &&
+      {items.length > 0 &&
         items.map(item => (
           <AbsenceItem key={item.id}>{item.summary}</AbsenceItem>
         ))}
