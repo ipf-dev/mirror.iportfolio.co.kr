@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   font-size: 3.6rem;
   line-height: 1.5;
   text-align: left !important;
+  word-break: keep-all;
 `
 
 function Today({ message }) {

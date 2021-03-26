@@ -4,7 +4,7 @@ import styled from "@emotion/styled"
 import moment from "moment"
 
 const DateWrapper = styled.div`
-  font-size: 5.6rem;
+  font-size: 3.6rem;
 `
 
 const ClockWrapper = styled.div`
